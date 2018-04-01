@@ -191,7 +191,7 @@ restart.addEventListener('click', gameStart);
 
 //function showing the modal with congratulations
 function gameWon(){
-	if(matchedCards.length == 2){
+	if(matchedCards.length == 16){
 		clearInterval(interval);
 		let finalTime = timer.innerHTML;
 
