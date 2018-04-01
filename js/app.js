@@ -35,10 +35,14 @@ const closeButton = document.getElementsByClassName("close")[0];
 //function from https://stackoverflow.com/questions/16053357/what-does-foreach-call-do-in-javascript
 function gameStart(){
 	let shuffledCards = shuffle(cards);
-	for (let i=0; i < shuffledCards.length; i++){
+	console.log(shuffledCards);
+	const fragment = document.createDocumentFragment();
+		for (let i=0; i < shuffledCards.length; i++){
 		Array.prototype.forEach.call(shuffledCards, function(el){
-			theDeck.appendChild(el);
+			fragment.appendChild(el);
 		});
+
+	theDeck.appendChild(fragment);
 
 		cards[i].classList.remove("show", "match", "open", "disabled");
 	}
@@ -97,10 +101,10 @@ function displaySymbol() {
 //add the card to the list of all open cards, check if there's a match
 function openListAdd() {
 	openCards.push(this);
-	let len = openCards.length;
-	if(len === 2){
+	let cardsLength = openCards.length;
+	if(cardsLength === 2){
 		counterMove();
-		if(openCards[0].type === openCards[1].type){
+		if (openCards[0].innerHTML === openCards[1].innerHTML) {
 			match();
 		} else {
 			unmatch();
@@ -187,7 +191,7 @@ restart.addEventListener('click', gameStart);
 
 //function showing the modal with congratulations
 function gameWon(){
-	if(matchedCards.length == 16){
+	if(matchedCards.length == 2){
 		clearInterval(interval);
 		let finalTime = timer.innerHTML;
 
@@ -214,6 +218,14 @@ function closeModal(){
 		gameStart();
 	});
 }
+
+//closing congratulations modal if the user clicks outside of the modal
+window.onclick = function (e) {
+		if (e.target == modal) {
+			modal.classList.remove("show");
+			modal.classList.add("hide");
+		}
+	}
 /*min
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)

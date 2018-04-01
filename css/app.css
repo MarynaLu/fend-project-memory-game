@@ -198,6 +198,10 @@ h1 {
     display: block;
 }
 
+.modal.hide{
+    display: none;
+}
+
 .stars.hide {
     display: none;
 }
