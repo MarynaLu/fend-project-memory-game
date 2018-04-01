@@ -21,7 +21,7 @@ const restart = document.querySelector(".restart");
 //timer variables
 let second = 0;
 let minute = 0;
-let hour = 0
+let hour = 0;
 let timer = document.querySelector(".timer");
 let interval;
 
@@ -35,7 +35,6 @@ const closeButton = document.getElementsByClassName("close")[0];
 //function from https://stackoverflow.com/questions/16053357/what-does-foreach-call-do-in-javascript
 function gameStart(){
 	let shuffledCards = shuffle(cards);
-	console.log(shuffledCards);
 	const fragment = document.createDocumentFragment();
 		for (let i=0; i < shuffledCards.length; i++){
 		Array.prototype.forEach.call(shuffledCards, function(el){
@@ -88,11 +87,15 @@ function shuffle(array) {
 card.forEach(function(elem) {
 	elem.addEventListener('click', displaySymbol);
 	elem.addEventListener('click', openListAdd);
-	elem.addEventListener("click", gameWon);
+	elem.addEventListener('click', gameWon);
 });
 
 //display the card symbol on click
 function displaySymbol() {
+	if (minute === 0 && hour === 0 && second === 0){
+		timerStart();
+	}
+
 	this.classList.toggle("open");
 	this.classList.toggle("show");
 	this.classList.toggle("disabled");
@@ -155,14 +158,7 @@ function enable(){
 function counterMove() {
 	moves++;
 	counter.innerHTML = moves;
-
-	if (moves === 1){
-		second = 0;
-		minute = 0;
-		hour = 0;
-		timerStart();
-	}
-
+	
 	if (moves > 8 && moves < 16){
 		stars[1].style.display = "none";
 	} else if (moves > 17){
@@ -170,9 +166,10 @@ function counterMove() {
 		}
 	}
 
+
 //timer function
 function timerStart(){
-	interval = setInterval(function(){
+		interval = setInterval(function(){
 		timer.innerHTML = `${minute} mins ${second} secs`;
 		second++;
 		if(second === 60){
@@ -186,9 +183,23 @@ function timerStart(){
 	}, 1000);
 }
 
-//adding an event listener to restart the game on the click of restart button
-restart.addEventListener('click', gameStart);
 
+//adding an event listener to restart the game on the click of restart button
+restart.addEventListener('click', cleanOpenCards);
+restart.addEventListener('click', gameStart);
+restart.addEventListener('click', resetTimer);
+
+function cleanOpenCards (){
+	openCards = [];
+}
+
+function resetTimer(){
+	clearInterval(interval);
+	second = 0;
+	minute = 0;
+	hour = 0;
+	timer.innerHTML = `${minute} mins ${second} secs`;
+}
 //function showing the modal with congratulations
 function gameWon(){
 	if(matchedCards.length == 16){
@@ -225,6 +236,16 @@ window.onclick = function (e) {
 			modal.classList.remove("show");
 		}
 	}
+
+//restart button on modal
+document.querySelector(".restartButton").addEventListener("click", function(){
+	modal.classList.remove("show");
+	gameStart();
+	second = 0;
+	minute = 0;
+	hour = 0;
+	timer.innerHTML = `${minute} mins ${second} secs`;
+});
 /*min
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)

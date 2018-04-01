@@ -210,3 +210,11 @@ h1 {
     font-size: 20px;
     padding-left: 20%;
 }
+
+.restartButton {
+    margin-left: 15%;
+    font-size: 18px;
+    font-family: 'Coda', cursive;
+    font-weight: bold;
+    background: #99738e;
+}
