@@ -42,7 +42,7 @@ function gameStart(){
 			fragment.appendChild(el);
 		});
 
-	theDeck.appendChild(fragment);
+		theDeck.appendChild(fragment);
 
 		cards[i].classList.remove("show", "match", "open", "disabled");
 	}
@@ -223,7 +223,6 @@ function closeModal(){
 window.onclick = function (e) {
 		if (e.target == modal) {
 			modal.classList.remove("show");
-			modal.classList.add("hide");
 		}
 	}
 /*min
